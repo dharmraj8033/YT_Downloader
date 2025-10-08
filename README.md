@@ -76,6 +76,21 @@ For auto-restart on file changes:
 npm run dev
 ```
 
+### Docker Deployment
+
+**Using Docker:**
+```bash
+docker build -t yt-downloader .
+docker run -p 3000:3000 -v $(pwd)/downloads:/app/downloads yt-downloader
+```
+
+**Using Docker Compose:**
+```bash
+docker-compose up -d
+```
+
+Access at `http://localhost:3000`
+
 ## 🎯 Usage
 
 ### Web Interface
