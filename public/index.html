@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered YouTube Downloader</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎬 AI YouTube Downloader</h1>
+            <p class="subtitle">Download YouTube videos & audio in multiple formats with AI-powered optimization</p>
+        </header>
+
+        <main>
+            <!-- URL Input Section -->
+            <div class="input-section card">
+                <div class="input-wrapper">
+                    <input 
+                        type="text" 
+                        id="urlInput" 
+                        placeholder="Paste YouTube URL here..." 
+                        autocomplete="off"
+                    >
+                    <button id="fetchBtn" class="btn btn-primary">
+                        <span class="btn-text">Analyze</span>
+                        <span class="loader" style="display: none;"></span>
+                    </button>
+                </div>
+                <div id="urlError" class="error-message"></div>
+            </div>
+
+            <!-- Video Info Section -->
+            <div id="videoInfo" class="video-info card" style="display: none;">
+                <div class="info-header">
+                    <img id="thumbnail" src="" alt="Video Thumbnail" class="thumbnail">
+                    <div class="info-details">
+                        <h2 id="videoTitle">Video Title</h2>
+                        <p class="meta">
+                            <span id="channelName">Channel Name</span> • 
+                            <span id="duration">0:00</span> • 
+                            <span id="views">0 views</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Format Selection -->
+                <div class="format-selection">
+                    <div class="format-tabs">
+                        <button class="tab-btn active" data-tab="video">
+                            📹 Video (MP4)
+                        </button>
+                        <button class="tab-btn" data-tab="audio">
+                            🎵 Audio (MP3)
+                        </button>
+                    </div>
+
+                    <!-- Video Formats -->
+                    <div id="videoTab" class="tab-content active">
+                        <div class="quality-selector">
+                            <label>Select Quality:</label>
+                            <div id="videoQualities" class="quality-buttons">
+                                <!-- Dynamically populated -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Audio Formats -->
+                    <div id="audioTab" class="tab-content">
+                        <div class="quality-selector">
+                            <label>Audio Quality:</label>
+                            <div class="quality-buttons">
+                                <button class="quality-btn" data-quality="highestaudio">High Quality (128kbps)</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Download Button -->
+                <div class="download-section">
+                    <button id="downloadBtn" class="btn btn-download">
+                        <span class="btn-text">⬇️ Download</span>
+                        <span class="loader" style="display: none;"></span>
+                    </button>
+                </div>
+
+                <!-- Progress Bar -->
+                <div id="progressSection" class="progress-section" style="display: none;">
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                    <p id="progressText" class="progress-text">Initializing download...</p>
+                </div>
+            </div>
+
+            <!-- Batch Download Section -->
+            <div class="batch-section card">
+                <h3>🔥 Batch Download (Multiple URLs)</h3>
+                <textarea 
+                    id="batchUrls" 
+                    placeholder="Paste multiple YouTube URLs (one per line)..."
+                    rows="5"
+                ></textarea>
+                <button id="batchDownloadBtn" class="btn btn-secondary">
+                    Download All
+                </button>
+                <div id="batchProgress" class="batch-progress"></div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">⚡</span>
+                    <h4>Lightning Fast</h4>
+                    <p>Parallel download engine for maximum speed</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🎯</span>
+                    <h4>Smart Detection</h4>
+                    <p>Auto-detect optimal format and quality</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔄</span>
+                    <h4>Auto Retry</h4>
+                    <p>Intelligent error handling with retry logic</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📱</span>
+                    <h4>Mobile Ready</h4>
+                    <p>Fully responsive on all devices</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Built with ❤️ using AI • Professional-grade YouTube downloader</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
