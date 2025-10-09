@@ -18,8 +18,12 @@ function validateYouTubeURL(url) {
 async function getVideoInfo(url) {
     return new Promise((resolve, reject) => {
         const isWin = process.platform === 'win32';
-        const ytDlpCmd = isWin ? './yt-dlp.exe' : 'python3';
-        const ytDlpArgs = isWin ? ['--dump-json', url] : ['./yt-dlp', '--dump-json', url];
+        const ytDlpPath = isWin ? path.join(__dirname, 'yt-dlp.exe') : path.join(__dirname, 'yt-dlp');
+        if (!fs.existsSync(ytDlpPath)) {
+            return reject(new Error('yt-dlp not found at ' + ytDlpPath));
+        }
+        const ytDlpCmd = isWin ? ytDlpPath : 'python3';
+        const ytDlpArgs = isWin ? ['--dump-json', url] : [ytDlpPath, '--dump-json', url];
         const ytDlp = spawn(ytDlpCmd, ytDlpArgs, { cwd: __dirname });
         let data = '';
         let errorData = '';
@@ -166,8 +170,12 @@ app.post('/api/download', async (req, res) => {
         }
 
         const isWin = process.platform === 'win32';
-        const ytDlpCmd = isWin ? './yt-dlp.exe' : 'python3';
-        const ytDlpArgsFinal = isWin ? ytDlpArgs : ['./yt-dlp', ...ytDlpArgs];
+        const ytDlpPath = isWin ? path.join(__dirname, 'yt-dlp.exe') : path.join(__dirname, 'yt-dlp');
+        if (!fs.existsSync(ytDlpPath)) {
+            return reject(new Error('yt-dlp not found at ' + ytDlpPath));
+        }
+        const ytDlpCmd = isWin ? ytDlpPath : 'python3';
+        const ytDlpArgsFinal = isWin ? ytDlpArgs : [ytDlpPath, ...ytDlpArgs];
         const ytDlp = spawn(ytDlpCmd, ytDlpArgsFinal, { cwd: __dirname });
         ytDlp.stdout.pipe(res);
 
