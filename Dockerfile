@@ -1,7 +1,7 @@
 FROM node:20
 
-# Install curl
-RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+# Install curl and python3
+RUN apt-get update && apt-get install -y curl python3 && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
