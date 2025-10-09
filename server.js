@@ -22,8 +22,8 @@ async function getVideoInfo(url) {
         if (!fs.existsSync(ytDlpPath)) {
             return reject(new Error('yt-dlp not found at ' + ytDlpPath));
         }
-        const ytDlpCmd = isWin ? ytDlpPath : 'python3';
-        const ytDlpArgs = isWin ? ['--dump-json', url] : [ytDlpPath, '--dump-json', url];
+        const ytDlpCmd = isWin ? ytDlpPath : 'python';
+        const ytDlpArgs = isWin ? ['--verbose', '--dump-json', url] : [ytDlpPath, '--verbose', '--dump-json', url];
         const ytDlp = spawn(ytDlpCmd, ytDlpArgs, { cwd: __dirname });
         let data = '';
         let errorData = '';
@@ -157,7 +157,7 @@ app.post('/api/download', async (req, res) => {
 
         let ytDlpArgs;
         if (format === 'mp3') {
-            ytDlpArgs = [url, '-f', 'bestaudio', '--extract-audio', '--audio-format', 'mp3', '-o', '-'];
+            ytDlpArgs = ['--verbose', url, '-f', 'bestaudio', '--extract-audio', '--audio-format', 'mp3', '-o', '-'];
         } else if (format === 'mp4') {
             let formatStr = 'best';
             if (quality !== 'highest') {
@@ -166,7 +166,7 @@ app.post('/api/download', async (req, res) => {
                     formatStr = `best[height<=${height}][ext=mp4]`;
                 }
             }
-            ytDlpArgs = [url, '-f', formatStr, '-o', '-'];
+            ytDlpArgs = ['--verbose', url, '-f', formatStr, '-o', '-'];
         }
 
         const isWin = process.platform === 'win32';
@@ -174,7 +174,7 @@ app.post('/api/download', async (req, res) => {
         if (!fs.existsSync(ytDlpPath)) {
             return reject(new Error('yt-dlp not found at ' + ytDlpPath));
         }
-        const ytDlpCmd = isWin ? ytDlpPath : 'python3';
+        const ytDlpCmd = isWin ? ytDlpPath : 'python';
         const ytDlpArgsFinal = isWin ? ytDlpArgs : [ytDlpPath, ...ytDlpArgs];
         const ytDlp = spawn(ytDlpCmd, ytDlpArgsFinal, { cwd: __dirname });
         ytDlp.stdout.pipe(res);
