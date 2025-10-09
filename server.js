@@ -17,7 +17,8 @@ function validateYouTubeURL(url) {
 
 async function getVideoInfo(url) {
     return new Promise((resolve, reject) => {
-        const ytDlp = spawn('./yt-dlp', ['--dump-json', url], { cwd: __dirname });
+        const ytDlpCmd = process.platform === 'win32' ? './yt-dlp.exe' : './yt-dlp';
+        const ytDlp = spawn(ytDlpCmd, ['--dump-json', url], { cwd: __dirname });
         let data = '';
         ytDlp.stdout.on('data', (chunk) => {
             data += chunk;
@@ -153,7 +154,8 @@ app.post('/api/download', async (req, res) => {
             ytDlpArgs = [url, '-f', formatStr, '-o', '-'];
         }
 
-        const ytDlp = spawn('./yt-dlp', ytDlpArgs, { cwd: __dirname });
+        const ytDlpCmd = process.platform === 'win32' ? './yt-dlp.exe' : './yt-dlp';
+        const ytDlp = spawn(ytDlpCmd, ytDlpArgs, { cwd: __dirname });
         ytDlp.stdout.pipe(res);
 
         ytDlp.on('error', (err) => {

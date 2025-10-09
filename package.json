@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "postinstall": "wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O yt-dlp && chmod +x yt-dlp"
+    "postinstall": "node download-yt-dlp.js"
   },
   "keywords": [
     "youtube",
