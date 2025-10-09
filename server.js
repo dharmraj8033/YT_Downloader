@@ -20,22 +20,31 @@ async function getVideoInfo(url) {
         const ytDlpCmd = process.platform === 'win32' ? './yt-dlp.exe' : './yt-dlp';
         const ytDlp = spawn(ytDlpCmd, ['--dump-json', url], { cwd: __dirname });
         let data = '';
+        let errorData = '';
         ytDlp.stdout.on('data', (chunk) => {
             data += chunk;
         });
+        ytDlp.stderr.on('data', (chunk) => {
+            errorData += chunk;
+        });
         ytDlp.on('close', (code) => {
-            if (code === 0) {
+            console.log('yt-dlp exit code:', code);
+            console.log('yt-dlp stdout:', data);
+            console.log('yt-dlp stderr:', errorData);
+            if (code === 0 && data.trim()) {
                 try {
                     const info = JSON.parse(data);
                     resolve(info);
                 } catch (e) {
-                    reject(e);
+                    reject(new Error('JSON parse error: ' + e.message));
                 }
             } else {
-                reject(new Error('Failed to get video info'));
+                reject(new Error('yt-dlp failed: ' + errorData || 'No output'));
             }
         });
-        ytDlp.on('error', reject);
+        ytDlp.on('error', (err) => {
+            reject(new Error('Spawn error: ' + err.message));
+        });
     });
 }
 
