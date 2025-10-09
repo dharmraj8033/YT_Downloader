@@ -6,8 +6,8 @@ RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 # Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files and download script
+COPY package*.json download-yt-dlp.js ./
 
 # Install dependencies
 RUN npm ci --only=production
