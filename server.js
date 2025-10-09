@@ -1,6 +1,7 @@
 const express = require('express');
 const { spawn } = require('child_process');
 const cors = require('cors');
+require('dotenv').config();
 const path = require('path');
 const fs = require('fs');
 const ffmpeg = require('fluent-ffmpeg');
@@ -46,7 +47,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // Ensure downloads directory exists
-const downloadsDir = path.join(__dirname, 'downloads');
+const downloadsDir = path.join(__dirname, process.env.DOWNLOAD_DIR || 'downloads');
 if (!fs.existsSync(downloadsDir)) {
     fs.mkdirSync(downloadsDir);
 }
