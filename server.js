@@ -22,9 +22,8 @@ async function getVideoInfo(url) {
         if (!fs.existsSync(ytDlpPath)) {
             return reject(new Error('yt-dlp not found at ' + ytDlpPath));
         }
-        const ytDlpCmd = isWin ? ytDlpPath : 'python';
-        const ytDlpArgs = isWin ? ['--verbose', '--dump-json', url] : [ytDlpPath, '--verbose', '--dump-json', url];
-        const ytDlp = spawn(ytDlpCmd, ytDlpArgs, { cwd: __dirname });
+        const ytDlpArgs = ['--verbose', '--dump-json', url];
+        const ytDlp = spawn(ytDlpPath, ytDlpArgs, { cwd: __dirname });
         let data = '';
         let errorData = '';
         ytDlp.stdout.on('data', (chunk) => {
@@ -175,9 +174,7 @@ app.post('/api/download', async (req, res) => {
             console.error('yt-dlp not found at', ytDlpPath);
             return res.status(500).json({ success: false, error: 'Server missing yt-dlp binary' });
         }
-        const ytDlpCmd = isWin ? ytDlpPath : 'python';
-        const ytDlpArgsFinal = isWin ? ytDlpArgs : [ytDlpPath, ...ytDlpArgs];
-        const ytDlp = spawn(ytDlpCmd, ytDlpArgsFinal, { cwd: __dirname });
+        const ytDlp = spawn(ytDlpPath, ytDlpArgs, { cwd: __dirname });
         ytDlp.stdout.pipe(res);
 
         ytDlp.on('error', (err) => {
