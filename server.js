@@ -22,7 +22,7 @@ async function getVideoInfo(url) {
         if (!fs.existsSync(ytDlpPath)) {
             return reject(new Error('yt-dlp not found at ' + ytDlpPath));
         }
-        const ytDlpCmd = isWin ? ytDlpPath : 'python';
+        const ytDlpCmd = isWin ? ytDlpPath : 'python3';
         const ytDlpArgs = isWin ? ['--verbose', '--dump-json', url] : [ytDlpPath, '--verbose', '--dump-json', url];
         const ytDlp = spawn(ytDlpCmd, ytDlpArgs, { cwd: __dirname });
         let data = '';
