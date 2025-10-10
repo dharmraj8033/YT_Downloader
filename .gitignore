@@ -8,6 +8,13 @@ downloads/
 *.mp3
 *.webm
 
+# Local binaries
+yt-dlp.exe
+yt-dlp
+
+# Stray temp files
+1759936654*-player-script.js
+
 # Logs
 logs/
 *.log
